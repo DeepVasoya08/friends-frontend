@@ -1,0 +1,125 @@
+<app-header></app-header>
+<div class="flex flex-col justify-center items-center w-screen h-screen">
+  <div class="flex relative h-[320px] p-1 -z-10 rounded-sm">
+    <img
+      class="z-0 object-fill min-w-[100vw] outline-1 outline-gray-400 outline"
+      [src]="
+        user_?.coverPic
+          ? 'http://localhost:9000/api/user/get/cover?filename=' +
+            user_?.coverPic
+          : 'assets/background.jfif'
+      "
+      alt="cover pic"
+    />
+  </div>
+  <div class="flex flex-col justify-center items-center relative">
+    <img
+      class="w-[150px] h-[150px] rounded-full object-cover border-white border-solid border-[3px]"
+      [src]="
+        user_?.profilePic
+          ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+            user_?.profilePic
+          : 'assets/user.png'
+      "
+      alt="avatar"
+    />
+    <p class="text-2xl font-bold">{{ user_?.fname }} {{ user_?.lname }}</p>
+
+    <button
+      *ngIf="req_status === 'PENDING'; else req"
+      (click)="withdraw(user_._id)"
+      mat-raised-button
+      color="warn"
+    >
+      Withdraw
+    </button>
+    <ng-template #req>
+      <button
+        *ngIf="user_.friends.includes(curUserId); else follow"
+        (click)="unfriend(user_._id)"
+        mat-raised-button
+        color="Warn"
+      >
+        Unfriend
+      </button>
+      <ng-template #follow>
+        <button
+          (click)="sendRequest(user_._id)"
+          mat-raised-button
+          color="primary"
+        >
+          Add Friend
+        </button>
+      </ng-template>
+    </ng-template>
+  </div>
+
+  <!-- posts -->
+  <div class="profile_posts flex flex-col flex-grow h-screen md:w-[600px]">
+    <div class="flex flex-col" *ngFor="let p of posts_">
+      <div class="feed-container p-5 mt-5 rounded-t-2xl shadow-sm">
+        <div class="flex items-center space-x-2">
+          <img
+            class="rounded-full"
+            [src]="
+              p?.profilePic
+                ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+                  p?.profilePic
+                : 'assets/user.png'
+            "
+            alt="avatar"
+            width="40"
+            height="40"
+          />
+          <div>
+            <p class="font-medium">{{ p.fname }} {{ p.lname }}</p>
+            <p class="text-xs text-gray-400">
+              {{ p.createdAt | timeago }}
+            </p>
+          </div>
+        </div>
+        <p *ngIf="p.desc != undefined" class="pt-4">{{ p.desc }}</p>
+      </div>
+
+      <!-- if post has image -->
+      <div *ngIf="p.image != ''" class="contents h-56 md:h-96 bg-white">
+        <img
+          class="object-cover"
+          src="http://localhost:9000/api/posts/get/image?filename={{ p.image }}"
+          alt="post"
+        />
+      </div>
+
+      <!-- footer of post -->
+      <div
+        class="flex justify-between items-center rounded-b-2xl bg-gray-800 shadow-md text-gray-400 border-t"
+      >
+        <div
+          *ngIf="p.likes.includes(curUserId); else non_liked"
+          (click)="postService.handleLikes(curUserId, p._id)"
+          class="input_box_icons rounded-none rounded-b-2xl text-blue-800"
+        >
+          <mat-icon>thumb_up</mat-icon>
+          <p>Like {{ p.likes.length }}</p>
+        </div>
+        <ng-template #non_liked>
+          <div
+            (click)="postService.handleLikes(curUserId, p._id)"
+            class="input_box_icons rounded-none rounded-b-2xl"
+          >
+            <mat-icon>thumb_up</mat-icon>
+            <p>Like {{ p.likes.length }}</p>
+          </div>
+        </ng-template>
+        <div (click)="openCommentBox(p)" class="input_box_icons rounded-none">
+          <mat-icon>comment</mat-icon>
+          <p>Comment</p>
+        </div>
+        <div class="input_box_icons rounded-none rounded-br-2xl">
+          <mat-icon>share</mat-icon>
+          <p>Share</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="flex justify-center items-center h-screen w-screen relative">
+  <div class="flex flex-col lg:flex-row gap-5 items-center justify-center">
+    <div>
+      <mat-card class="h-96 bg-gray-800 p-3 w-[400px] rounded-lg mb-8">
+        <mat-card-content
+          style="padding: 4px; display: flex; flex-direction: column"
+        >
+          <form
+            class="form"
+            [formGroup]="formGroup"
+            (ngSubmit)="register()"
+            class="flex flex-col gap-2"
+          >
+            <input
+              type="text"
+              id="fname"
+              formControlName="fname"
+              placeholder="First Name"
+            />
+            <input
+              type="text"
+              id="lname"
+              formControlName="lname"
+              placeholder="Last Name"
+              required
+            />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              formControlName="email"
+              placeholder="Email"
+              required
+            />
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              placeholder="Password"
+              required
+            />
+            <input
+              type="password"
+              id="cpassword"
+              formControlName="cpassword"
+              placeholder="Confirm Password"
+              required
+            />
+            <button
+              style="padding: 15px; font-size: 18px"
+              type="submit"
+              class="bg-blue-500 text-white outline-none border-none rounded-lg mt-5 cursor-pointer"
+            >
+              Singup
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="flex items-center justify-center m-2">
+      <p class="font-bold">
+        already have an account?
+        <a class="text-blue-800" routerLink="/login">login</a>
+      </p>
+    </div>
+  </div>
+</div>

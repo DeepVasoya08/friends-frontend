@@ -1,0 +1,19 @@
+input {
+  padding: 20px;
+  outline: none;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: transparent;
+  color: antiquewhite;
+  font-family: fangsong;
+  font-size: large;
+}
+
+::placeholder {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+input.ng-invalid.ng-touched {
+  border: red 1px solid;
+}

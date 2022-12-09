@@ -1,0 +1,24 @@
+<div class="flex-col w-60 p-2">
+  <h1 class="flex justify-center text-slate-100">All Users</h1>
+  <div class="overflow-y-auto h-[630px]">
+    <div *ngFor="let u of userList">
+      <a *ngIf="u._id != uid" routerLink="/visit/{{ u._id }}">
+        <div
+          class="flex items-center space-x-3 mb-2 relative hover:bg-gray-600 cursor-pointer p-2 rounded-xl"
+        >
+          <img
+            class="rounded-full object-cover h-12 w-12"
+            [src]="
+              u?.profilePic
+                ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+                  u?.profilePic
+                : 'assets/user.png'
+            "
+            alt="online friends"
+          />
+          <p>{{ u.fname }} {{ u.lname }}</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

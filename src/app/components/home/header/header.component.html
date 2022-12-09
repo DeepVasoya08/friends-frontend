@@ -1,0 +1,145 @@
+<div
+  class="header-container sticky top-0 z-50 flex flex-row items-center p-2 lg:px-5 shadow-md"
+>
+  <!-- left -->
+  <div class="flex items-center">
+    <a class="hidden lg:flex outline-none" routerLink="/">
+      <img
+        class="cursor-pointer"
+        width="40px"
+        height="40px"
+        src="assets/fb.png"
+        alt="logo"
+      />
+    </a>
+
+    <!-- search -->
+    <div class="sm:inline-flex items-center p-2">
+      <div class="hidden lg:inline-flex">
+        <mat-icon class="text-gray-500">search</mat-icon>
+      </div>
+      <div>
+        <input
+          [(ngModel)]="textSearch"
+          (keyup)="onChange($event)"
+          class="ml-2 bg-inherit text-slate-200 items-center outline-none flex-shrink rounded"
+          type="text"
+          placeholder="search friends"
+        />
+        <div
+          *ngIf="textSearch != ''"
+          class="flex flex-col items-start overflow-y-auto z-50 h-20"
+        >
+          <a
+            *ngFor="let r of res"
+            class="flex items-center cursor-pointer m-[2px]"
+            routerLink="/visit/{{ r._id }}"
+          >
+            <img
+              class="rounded h-10 w-10"
+              [src]="
+                r.profilePic
+                  ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+                    (user | async)?.profilePic
+                  : 'assets/fb.png'
+              "
+              alt="avatar"
+            />
+            <p class="p-1">{{ r.fname }} {{ r.lname }}</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- center -->
+  <div class="flex justify-center flex-grow">
+    <div class="flex space-x-4 lg:space-x-10">
+      <a
+        routerLink="/"
+        matTooltip="Home"
+        class="flex items-center cursor-pointer hover:bg-gray-100 sm:h-14 rounded-xl active:border-b-2 border-blue-500 group"
+      >
+        <mat-icon
+          class="h-5 text-blue-500 text-center sm:h-7 mx-auto group-hover:text-blue-500"
+          >home</mat-icon
+        >
+      </a>
+      <a
+        routerLink="/friends"
+        matTooltip="Requests"
+        class="flex items-center cursor-pointer md:px-10 hover:bg-gray-100 sm:h-14 rounded-xl active:border-b-2 border-blue-500 group"
+      >
+        <mat-icon
+          *ngIf="req_queue == ''; else req"
+          class="h-5 text-gray-500 text-center sm:h-7 mx-auto group-hover:text-blue-500"
+          >group</mat-icon
+        >
+        <ng-template #req>
+          <mat-icon
+            matBadge="{{ req_queue.length }}"
+            class="h-5 text-gray-500 text-center sm:h-7 mx-auto group-hover:text-blue-500"
+            >group</mat-icon
+          >
+        </ng-template>
+      </a>
+      <div
+        matTooltip="TV"
+        class="flex items-center cursor-pointer md:px-10 hover:bg-gray-100 sm:h-14 rounded-xl active:border-b-2 border-blue-500 group"
+      >
+        <mat-icon
+          class="h-5 text-gray-500 text-center sm:h-7 mx-auto group-hover:text-blue-500"
+          >tv</mat-icon
+        >
+      </div>
+      <div
+        matTooltip="Market"
+        class="flex items-center cursor-pointer md:px-10 hover:bg-gray-100 sm:h-14 rounded-xl active:border-b-2 border-blue-500 group"
+      >
+        <mat-icon
+          class="h-5 text-gray-500 text-center sm:h-7 mx-auto group-hover:text-blue-500"
+          >storefront</mat-icon
+        >
+      </div>
+      <div
+        matTooltip="Games"
+        class="flex items-center cursor-pointer md:px-10 hover:bg-gray-100 sm:h-14 rounded-xl active:border-b-2 border-blue-500 group"
+      >
+        <mat-icon
+          class="h-5 text-gray-500 text-center sm:h-7 mx-auto group-hover:text-blue-500"
+          >sports_esports</mat-icon
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- right -->
+  <div *ngIf="user | async as u" class="flex items-center justify-end">
+    <a class="outline-none" routerLink="/profile/{{ u?._id }}">
+      <div class="flex items-center justify-center cursor-pointer">
+        <img
+          class="rounded-full h-10 w-10 object-cover"
+          [src]="
+            (user | async)?.profilePic
+              ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+                (user | async)?.profilePic
+              : 'assets/user.png'
+          "
+          alt="profile"
+        />
+      </div>
+    </a>
+    <div class="header_icons_left">
+      <mat-icon>grid_view</mat-icon>
+    </div>
+    <div class="header_icons_left">
+      <mat-icon>chat</mat-icon>
+    </div>
+    <div class="header_icons_left">
+      <mat-icon>notifications</mat-icon>
+    </div>
+    <div class="header_icons_left">
+      <mat-icon>expand_more</mat-icon>
+    </div>
+  </div>
+</div>

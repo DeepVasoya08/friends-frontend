@@ -1,0 +1,77 @@
+<app-header></app-header>
+<main class="flex">
+  <app-sidebar></app-sidebar>
+  <div class="flex flex-col">
+    <div class="requests-container">
+      <div
+        class="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-16 lg:grid-cols-5 lg:gap-4 overflow-x-auto"
+      >
+        <div *ngIf="req_queue.length <= 0; else req">
+          <div
+            class="flex justify-center items-center font-mono text-lg italic text-slate-200"
+          >
+            No Requests!
+          </div>
+        </div>
+        <ng-template #req>
+          <div *ngFor="let req of req_queue">
+            <div
+              class="flex flex-col h-60 justify-center items-center border-2 border-solid border-gray-400"
+            >
+              <div class="flex flex-col items-center justify-center">
+                <img
+                  class="h-32 w-32 object-cover rounded-full"
+                  [src]="
+                    req.profilePic
+                      ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+                        req.profilePic
+                      : 'assets/user.png'
+                  "
+                  alt="profile"
+                />
+                <p>{{ req.sender_fname }} {{ req.sender_lname }}</p>
+              </div>
+              <div class="action-btns">
+                <button
+                  (click)="
+                    responseRequest('ACCEPT', req.senderId, req.receiverId)
+                  "
+                  style="margin: 1px"
+                  mat-raised-button
+                  color="primary"
+                >
+                  Accept
+                </button>
+                <button
+                  (click)="
+                    responseRequest('DENY', req.senderId, req.receiverId)
+                  "
+                  style="margin: 1px"
+                  mat-raised-button
+                  color="warn"
+                >
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <hr class="my-8 h-px bg-gray-200 border-0 dark:bg-gray-700" />
+
+    <!-- suggestions -->
+    <div class="suggestions overflow-y-auto h-screen max-w-6xl">
+      <div class="suggestions-title">
+        <h1 class="text-slate-200">People You May Know</h1>
+      </div>
+      <div
+        class="suggestions-wrapper grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-16 lg:grid-cols-4 lg:gap-20"
+      >
+        <div *ngFor="let u of userList">
+          <app-users [user]="u"></app-users>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

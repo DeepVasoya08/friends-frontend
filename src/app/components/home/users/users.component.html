@@ -1,0 +1,49 @@
+<div
+  class="w-52 h-72 flex flex-col justify-center items-center border-2 border-gray-400 border-solid rounded-3xl relative cursor-pointer"
+>
+  <a
+    routerLink="/visit/{{ user._id }}"
+    class="hover:animate-pulse flex flex-col justify-center items-center"
+  >
+    <img
+      class="w-48 h-52 object-fill rounded-3xl"
+      [src]="
+        user?.profilePic
+          ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+            user?.profilePic
+          : 'assets/user.png'
+      "
+      alt="profile"
+    />
+    <p class="font-medium text-lg">{{ user.fname }} {{ user.lname }}</p>
+  </a>
+  <div>
+    <button
+      *ngIf="req_status === 'PENDING'; else req"
+      mat-raised-button
+      color="warn"
+      (click)="withdraw(user._id)"
+    >
+      Withdraw
+    </button>
+    <ng-template #req>
+      <button
+        *ngIf="friendsList.includes(user?._id); else add"
+        mat-raised-button
+        color="warn"
+        (click)="unfriend(user._id)"
+      >
+        Unfriend
+      </button>
+      <ng-template #add>
+        <button
+          (click)="add_friend(user._id)"
+          mat-raised-button
+          color="primary"
+        >
+          Add Friend
+        </button>
+      </ng-template>
+    </ng-template>
+  </div>
+</div>

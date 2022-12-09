@@ -1,0 +1,77 @@
+<div class="p-2 mt-5 h-screen lg:w-80 max-w-[450px] overflow-y-auto">
+  <a routerLink="/friends" class="sidebar_icons">
+    <mat-icon class="sidebar_icon">person</mat-icon>
+    <p class="hidden sm:inline-flex font-medium">Explore</p>
+  </a>
+  <div class="sidebar_icons">
+    <mat-icon class="sidebar_icon">group</mat-icon>
+    <p class="hidden sm:inline-flex font-medium">Groups</p>
+  </div>
+  <div class="sidebar_icons">
+    <mat-icon class="sidebar_icon">storefront</mat-icon>
+    <p class="hidden sm:inline-flex font-medium">Marketplace</p>
+  </div>
+  <div class="sidebar_icons">
+    <mat-icon class="sidebar_icon">computer</mat-icon>
+    <p class="hidden sm:inline-flex font-medium">Watch</p>
+  </div>
+  <div class="sidebar_icons">
+    <mat-icon class="sidebar_icon">calendar_month</mat-icon>
+    <p class="hidden sm:inline-flex font-medium">Events</p>
+  </div>
+  <div class="sidebar_icons">
+    <mat-icon class="sidebar_icon">schedule</mat-icon>
+    <p class="hidden sm:inline-flex font-medium">Memories</p>
+  </div>
+  <!-- <mat-icon class="sidebar_icon">expand_more</mat-icon>
+    <p class="hidden sm:inline-flex font-medium">See More</p> -->
+  <mat-expansion-panel class="see_more-container">
+    <mat-expansion-panel-header>
+      <mat-panel-title style="color: antiquewhite">See More</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="flex flex-col items-start">
+      <button
+        (click)="logout()"
+        class="mt-[2px] mb-[2px]"
+        mat-stroked-button
+        color="primary"
+      >
+        <mat-icon>logout</mat-icon> Logout
+      </button>
+      <button
+        (click)="deleteAccount()"
+        class="mt-[2px] mb-[2px]"
+        mat-stroked-button
+        color="warn"
+      >
+        <mat-icon>person</mat-icon> Delete
+      </button>
+    </div>
+  </mat-expansion-panel>
+
+  <hr style="margin: 20px 0" />
+
+  <p class="flex justify-center text-2xl">Friends</p>
+
+  <!-- close friends list -->
+  <div *ngFor="let friend of friends" class="sidebar_icons">
+    <a
+      class="outline-none flex items-center mb-4 w-full"
+      routerLink="/visit/{{ friend?._id }}"
+    >
+      <img
+        class="rounded-full h-12 w-12 object-cover mr-2"
+        [src]="
+          friend?.profilePic
+            ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+              friend?.profilePic
+            : 'assets/user.png'
+        "
+        alt="{{ friend?.fname }}"
+      />
+      <p class="hidden sm:inline-flex font-medium">
+        {{ friend?.fname }} {{ friend?.lname }}
+      </p>
+    </a>
+  </div>
+</div>

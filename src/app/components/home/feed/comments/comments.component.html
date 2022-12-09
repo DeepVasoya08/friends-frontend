@@ -1,0 +1,35 @@
+<mat-dialog-content class="mat-typography">
+  <!-- comments  -->
+  <div class="comments-container h-96">
+    <div
+      *ngFor="let c of postData.comments"
+      class="w-80 md:w-96 max-w-5xl overflow-y-auto"
+    >
+      <div class="flex flex-col bg-slate-200 p-[2px] m-[3px] rounded-xl">
+        <div class="m-1">
+          <span class="font-bold font-serif">{{ c.fname }}{{ c.lname }}</span>
+        </div>
+        <div class="m-1 flex flex-wrap">
+          <p class="font-serif font-medium italic">{{ c.message }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- input box -->
+  <div class="flex">
+    <form class="flex grow" #form="ngForm">
+      <input
+        class="flex grow outline-none rounded-md font-medium italic"
+        placeholder="comment..."
+        type="text"
+        name="message"
+        id="comment-box"
+        [(ngModel)]="message"
+      />
+    </form>
+    <button (click)="postComment()" mat-button>
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</mat-dialog-content>

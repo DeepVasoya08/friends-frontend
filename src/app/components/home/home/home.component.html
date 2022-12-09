@@ -1,0 +1,13 @@
+<div>
+  <mat-spinner
+    style="position: absolute"
+    class="z-50 right-2/4 left-2/4 top-2/4"
+    *ngIf="(loading | async) == true"
+  ></mat-spinner>
+  <app-header></app-header>
+  <div class="flex">
+    <app-sidebar></app-sidebar>
+    <app-feed></app-feed>
+    <app-rightbar class="hidden lg:inline-flex"></app-rightbar>
+  </div>
+</div>

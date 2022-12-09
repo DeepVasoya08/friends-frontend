@@ -1,0 +1,56 @@
+<div
+  class="story-container rounded-2xl min-w-[448px] overflow-x-scroll flex justify-start space-x-3 mx-auto"
+>
+  <div *ngIf="stories_ != []" class="story-loop-container flex justify-center">
+    <!-- add story -->
+    <div
+      class="add-story flex justify-center items-center h-56 w-32"
+      matTooltip="create story"
+    >
+      <button mat-fab color="primary">
+        <label class="cursor-pointer" for="storyFile">
+          <mat-icon>add</mat-icon>
+        </label>
+        <input
+          (change)="createStory($event)"
+          style="display: none"
+          id="storyFile"
+          type="file"
+          accept="image/*"
+        />
+      </button>
+    </div>
+
+    <!-- story card -->
+    <div
+      class="flex justify-center items-center"
+      *ngFor="let story of stories_ | async"
+    >
+      <div
+        *ngFor="let s of story"
+        class="story-card relative h-56 w-32 cursor-pointer overflow-x-auto p-3 transition duration-200 transform ease-in hover:scale-105 hover:animate-pulse"
+        matTooltip="{{ s?.fname }} {{ s?.lname }}"
+      >
+        <img
+          class="absolute h-10 w-10 rounded-full z-50 top-10 object-cover"
+          [src]="
+            s?.profilePic
+              ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+                s?.profilePic
+              : 'assets/user.png'
+          "
+          alt="profile pic"
+        />
+        <img
+          class="w-full h-full object-cover transform-gpu brightness-75 rounded-3xl"
+          [src]="
+            s?.image
+              ? 'http://localhost:9000/api/story/get/image?filename=' + s?.image
+              : 'assets/background.jfif'
+          "
+          alt="story"
+        />
+      </div>
+    </div>
+  </div>
+</div>

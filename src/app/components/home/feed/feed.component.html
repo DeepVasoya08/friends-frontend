@@ -1,0 +1,168 @@
+<!-- feed  -->
+<div
+  class="flex-grow h-screen md:min-w-[600px] pb-44 pt-6 ml-4 mr-4 xl:mr-40 xl:ml-40 overflow-y-auto"
+>
+  <div class="mx-auto max-w-md md:max-w-lg lg:max-w-3xl">
+    <!-- story -->
+    <app-story></app-story>
+
+    <!-- input box -->
+    <div
+      class="input-container p-2 rounded-2xl shadow-md text-slate-100 font-medium mt-6"
+    >
+      <div class="flex space-x-4 p-4 items-center">
+        <img
+          class="rounded-full h-10 w-10"
+          [src]="
+            (user_ | async)?.profilePic
+              ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+                (user_ | async)?.profilePic
+              : 'assets/user.png'
+          "
+          alt="avatar"
+        />
+        <form #form="ngForm" class="flex flex-auto">
+          <mat-form-field class="w-full placeholder:text-slate-200">
+            <div class="flex flex-grow">
+              <input
+                matInput
+                id="messagebox"
+                *ngIf="user_"
+                [(ngModel)]="message"
+                name="message"
+                class="rounded-full"
+                placeholder="Sup' {{ (user_ | async)?.fname }}?"
+              />
+              <label for="file">
+                <mat-icon
+                  matTooltip="Choose File"
+                  matSuffix
+                  class="cursor-pointer"
+                  >file_upload</mat-icon
+                >
+              </label>
+              <input
+                (change)="imageUpload($event)"
+                style="display: none"
+                id="file"
+                type="file"
+                accept="image/*"
+              />
+            </div>
+          </mat-form-field>
+          <div class="send-btn">
+            <button
+              matTooltip="Send"
+              class="m-1"
+              (click)="postMsg()"
+              type="submit"
+            >
+              <mat-icon class="text-green-600">send</mat-icon>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- preview img -->
+      <div
+        *ngIf="filename != ''"
+        class="flex items-center justify-center flex-col filter hover:brightness-110 transition duration-150 transform hover:scale-105"
+      >
+        <p class="h-10">{{ filename }}</p>
+        <p
+          style="margin-right: 5px !important"
+          (click)="clearFile()"
+          class="text-xs text-red-500 text-center cursor-pointer"
+        >
+          Remove
+        </p>
+      </div>
+    </div>
+
+    <!-- posts -->
+    <div class="flex flex-col-reverse" *ngFor="let post of posts_ | async">
+      <!-- post -->
+      <div *ngFor="let p of post" class="flex flex-col">
+        <div class="feed-container p-5 mt-5 rounded-t-2xl shadow-sm">
+          <a
+            routerLink="{{
+              p.userId !== uid_ ? '/visit/' + p.userId : '/profile/' + uid_
+            }}"
+            class="flex items-center space-x-2 cursor-pointer"
+          >
+            <img
+              class="rounded-full h-10 w-10"
+              [src]="
+                p?.profilePic
+                  ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+                    p?.profilePic
+                  : 'assets/user.png'
+              "
+              alt="avatar"
+            />
+            <div>
+              <p class="font-medium">{{ p.fname }} {{ p.lname }}</p>
+              <p class="text-xs text-gray-400">
+                {{ p.createdAt | timeago }}
+              </p>
+            </div>
+          </a>
+          <p *ngIf="p.desc != undefined" class="pt-4">{{ p.desc }}</p>
+        </div>
+
+        <!-- if post has image -->
+        <div *ngIf="p.image" class="contents h-56 md:h-96 bg-white">
+          <img
+            class="object-cover"
+            src="http://localhost:9000/api/posts/get/image?filename={{
+              p.image
+            }}"
+            alt="post"
+          />
+        </div>
+
+        <!-- footer of post -->
+        <div
+          *ngIf="user_ | async as u"
+          class="flex justify-between items-center rounded-b-2xl bg-gray-800 shadow-md text-gray-400 border-t"
+        >
+          <div
+            *ngIf="p.likes.includes((user_ | async)?._id); else non_liked"
+            (click)="postService.handleLikes(uid_, p._id)"
+            class="input_box_icons rounded-none rounded-b-2xl text-blue-800"
+          >
+            <mat-icon>thumb_up</mat-icon>
+            <p>Like {{ p.likes.length }}</p>
+          </div>
+          <ng-template #non_liked>
+            <div
+              (click)="postService.handleLikes(uid_, p._id)"
+              class="input_box_icons rounded-none rounded-b-2xl"
+            >
+              <mat-icon>thumb_up</mat-icon>
+              <p>Like {{ p.likes.length }}</p>
+            </div>
+          </ng-template>
+          <div (click)="openCommentBox(p)" class="input_box_icons rounded-none">
+            <mat-icon>comment</mat-icon>
+            <p>Comment</p>
+          </div>
+          <div
+            *ngIf="(user_ | async)?._id == p.userId; else not_owner"
+            (click)="postService.deletePost(uid_, p._id)"
+            class="input_box_icons rounded-none rounded-br-2xl hover:text-red-600"
+          >
+            <mat-icon class="text-red-500">delete</mat-icon>
+            <p>Delete</p>
+          </div>
+          <ng-template #not_owner>
+            <div class="input_box_icons rounded-none rounded-br-2xl">
+              <mat-icon>share</mat-icon>
+              <p>Share</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

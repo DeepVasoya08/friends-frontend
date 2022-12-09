@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #1c1e21;
+}
+
+.header-container,
+.story-container,
+.input-container,
+.feed-container,
+.see_more-container {
+  background-color: #1f2328;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.mat-typography p {
+  margin: 0;
+  color: antiquewhite;
+}
+
+@layer components {
+  .header_icons_left {
+    @apply hidden lg:inline-flex p-2 h-10 w-10 rounded-full text-gray-500 cursor-pointer hover:bg-gray-300 border-blue-500;
+  }
+  .sidebar_icons {
+    @apply flex items-center space-x-2 p-4 hover:bg-gray-600 rounded-xl cursor-pointer;
+  }
+  .sidebar_icon {
+    @apply h-8 w-8 text-blue-500;
+  }
+  .input_box_icons {
+    @apply flex items-center space-x-1 hover:bg-gray-600 flex-grow justify-center p-2 rounded-xl cursor-pointer;
+  }
+  .reg_input {
+    @apply flex justify-center items-center m-[5px] p-[5px] w-full;
+  }
+  .input_fields {
+    @apply font-serif font-normal outline-none rounded-md min-w-max sm:w-[45%] bg-gray-100 p-[15px];
+  }
+}
