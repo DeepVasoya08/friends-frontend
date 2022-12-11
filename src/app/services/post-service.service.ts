@@ -94,10 +94,7 @@ export class PostServiceService implements OnInit {
       });
   }
 
-  getAllPosts(): void {
-    if (this.allPostResonse) {
-      return;
-    }
+  getAllPosts(forceReload: boolean = true): void {
     const res = this.http.get(`${this.url}/get/all-posts/`);
     this.allPostResonse = res;
     this.setPosts(res);

@@ -14,7 +14,7 @@ import Pusher from 'pusher-js';
 export class UsersComponent implements OnInit {
   @Input() user!: any;
 
-  // current user's properties
+  // our profile's properties
   sender_fname!: string;
   sender_lname!: string;
   profilePic!: string;
@@ -28,6 +28,21 @@ export class UsersComponent implements OnInit {
     this.pusher = new Pusher('657da354cfe34ab989da', {
       cluster: 'ap2',
     });
+    this.extractData();
+    const channel_requests = this.pusher.subscribe('requests');
+    const channel_users = this.pusher.subscribe('users');
+    channel_requests.bind('request', () => this.checkReqStatus());
+    channel_users.bind('user', () => {
+      this.extractData();
+      this.userService.updateUser(this.curUserId);
+    });
+  }
+
+  ngOnInit(): void {
+    this.checkReqStatus();
+  }
+
+  extractData() {
     this.store.pipe(select(userSelector)).subscribe({
       next: (data) => {
         this.curUserId = data._id;
@@ -37,12 +52,6 @@ export class UsersComponent implements OnInit {
         this.friendsList = data.friends;
       },
     });
-    const channel_requests = this.pusher.subscribe('requests');
-    channel_requests.bind('request', () => this.checkReqStatus());
-  }
-
-  ngOnInit(): void {
-    this.checkReqStatus();
   }
 
   checkReqStatus() {

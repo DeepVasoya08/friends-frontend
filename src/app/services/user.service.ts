@@ -10,7 +10,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  allUsersList = new BehaviorSubject<any>('');
+  allUsersList = new BehaviorSubject<any>([]);
   req_queue = new BehaviorSubject<any>('');
 
   constructor(private http: HttpClient, private store: Store<State>) {}

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { PostServiceService } from 'src/app/services/post-service.service';
@@ -14,7 +14,7 @@ import { CommentsComponent } from './comments/comments.component';
   selector: 'app-feed',
   templateUrl: './feed.component.html',
 })
-export class FeedComponent implements OnDestroy {
+export class FeedComponent {
   posts_: any = [];
   user_: Observable<UserInterface>;
   uid_: any = '';
@@ -33,17 +33,12 @@ export class FeedComponent implements OnDestroy {
       cluster: 'ap2',
     });
     const channel = this.pusher.subscribe('posts');
-    channel.bind('post', () => this.postService.getAllPosts());
+    channel.bind('post', () => this.postService.getAllPosts);
     this.user_ = this.store.pipe(select(userSelector));
     this.user_.subscribe({
       next: (data) => (this.uid_ = data._id),
     });
     this.posts_ = this.store.pipe(select(postSelector));
-  }
-
-  ngOnDestroy(): void {
-    this.pusher.unbind_all();
-    this.pusher.unsubscribe('post');
   }
 
   openCommentBox(data: PostInterface) {

@@ -29,7 +29,10 @@ export class SidebarComponent implements OnInit {
       cluster: 'ap2',
     });
     const channel_user = this.pusher.subscribe('users');
-    channel_user.bind('user', () => this.getFriendsList());
+    channel_user.bind('user', () => {
+      this.getFriendsList();
+      this.userService.updateUser(this.id_);
+    });
   }
 
   ngOnInit(): void {

@@ -115,7 +115,11 @@
 
   <!-- right -->
   <div *ngIf="user | async as u" class="flex items-center justify-end">
-    <a class="outline-none" routerLink="/profile/{{ u?._id }}">
+    <a
+      matTooltip="{{ (user | async)?.fname }} {{ (user | async)?.lname }}"
+      class="outline-none"
+      routerLink="/profile/{{ u?._id }}"
+    >
       <div class="flex items-center justify-center cursor-pointer">
         <img
           class="rounded-full h-10 w-10 object-cover"
