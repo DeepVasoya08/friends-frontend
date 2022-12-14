@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { user } from '../store/actions';
@@ -16,6 +16,7 @@ export class UserService {
   constructor(private http: HttpClient, private store: Store<State>) {}
 
   url: string = 'http://localhost:9000/api/user';
+  authUrl: string = 'http://localhost:9000/api/auth';
   // url: string = 'https://friends-backend.onrender.com/api/user';
 
   getFriendsList(uid: string) {
@@ -126,12 +127,12 @@ export class UserService {
     window.location.reload();
   }
 
-  updateUser(curUserId: string) {
-    const res = this.getUser(curUserId);
-    res.subscribe({
+  updateUser() {
+    const token = localStorage.getItem('auth');
+    const headers = new HttpHeaders();
+    headers.append('authorization', `Bearer ${token}`);
+    this.http.post(`${this.authUrl}/reload`, { headers: headers }).subscribe({
       next: (data) => {
-        localStorage.removeItem('auth');
-        localStorage.setItem('auth', JSON.stringify(data));
         this.store.dispatch(user({ u: data }));
       },
       error: (err) =>

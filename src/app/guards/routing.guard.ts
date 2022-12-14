@@ -26,7 +26,7 @@ export class RoutingGuard implements CanActivate {
   checkLogin(): boolean {
     const { user } = this.getUser;
 
-    if (user == '') {
+    if (user._id == '' || user == null) {
       this.router.navigate(['/login']);
     }
     return true;

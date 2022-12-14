@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import Swal from 'sweetalert2';
 import { isLoggedIn, user } from '../store/actions';
 import { State } from '../store/state';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root',
@@ -12,18 +13,21 @@ import { State } from '../store/state';
 export class AuthServiceService {
   // url: string = 'https://friends-backend.onrender.com/api/auth';
   url: string = 'http://localhost:9000/api/auth';
+  token_!: any;
+
   constructor(
     private http: HttpClient,
     private store: Store<State>,
     private router: Router
   ) {
+    this.token_ = localStorage.getItem('auth');
     this.store.select('store_state');
   }
 
-  saveData(data: any) {
+  saveData(data: any, token: any) {
     this.store.dispatch(user({ u: data }));
     this.store.dispatch(isLoggedIn());
-    localStorage.setItem('auth', JSON.stringify(data));
+    localStorage.setItem('auth', JSON.stringify(token));
     this.router.navigate(['/']);
   }
 
@@ -37,10 +41,36 @@ export class AuthServiceService {
   }
 
   login(form: any) {
-    return this.http.post(`${this.url}/signin`, {
-      email: form.email,
-      password: form.password,
-    });
+    return this.http.post(
+      `${this.url}/signin`,
+      {
+        email: form.email,
+        password: form.password,
+      },
+      {
+        observe: 'response',
+      }
+    );
+  }
+
+  reload() {
+    const headers = new HttpHeaders().set(
+      'authorization',
+      'Bearer ' + JSON.parse(this.token_)
+    );
+    this.http
+      .post(`${this.url}/reload`, '', { headers: headers, observe: 'response' })
+      .subscribe({
+        next: (data) => {
+          this.saveData(data.body, JSON.parse(this.token_));
+        },
+        error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            text: err.error.message,
+          });
+        },
+      });
   }
 
   register(form: any) {

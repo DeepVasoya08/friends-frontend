@@ -38,7 +38,7 @@
         *ngIf="user_.friends.includes(curUserId); else follow"
         (click)="unfriend(user_._id)"
         mat-raised-button
-        color="Warn"
+        color="warn"
       >
         Unfriend
       </button>
@@ -57,7 +57,7 @@
   <!-- posts -->
   <div class="profile_posts flex flex-col flex-grow h-screen md:w-[600px]">
     <div class="flex flex-col" *ngFor="let p of posts_">
-      <div class="feed-container p-5 mt-5 rounded-t-2xl shadow-sm">
+      <div class="feed-container p-5 mt-5 rounded-t-2xl shadow-xl">
         <div class="flex items-center space-x-2">
           <img
             class="rounded-full"

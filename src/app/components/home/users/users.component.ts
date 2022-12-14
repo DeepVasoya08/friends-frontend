@@ -34,7 +34,7 @@ export class UsersComponent implements OnInit {
     channel_requests.bind('request', () => this.checkReqStatus());
     channel_users.bind('user', () => {
       this.extractData();
-      this.userService.updateUser(this.curUserId);
+      this.userService.updateUser();
     });
   }
 

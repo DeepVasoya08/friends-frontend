@@ -7,10 +7,12 @@
     >
       <div class="flex flex-col bg-slate-200 p-[2px] m-[3px] rounded-xl">
         <div class="m-1">
-          <span class="font-bold font-serif">{{ c.fname }}{{ c.lname }}</span>
+          <span class="font-bold">{{ c.fname }}{{ c.lname }}</span>
         </div>
         <div class="m-1 flex flex-wrap">
-          <p class="font-serif font-medium italic">{{ c.message }}</p>
+          <span class="font-medium text-lg" style="font-style: oblique">{{
+            c.message
+          }}</span>
         </div>
       </div>
     </div>
@@ -20,6 +22,7 @@
   <div class="flex">
     <form class="flex grow" #form="ngForm">
       <input
+        autofocus
         class="flex grow outline-none rounded-md font-medium italic"
         placeholder="comment..."
         type="text"

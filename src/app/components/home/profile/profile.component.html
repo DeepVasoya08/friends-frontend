@@ -57,7 +57,7 @@
   <!-- posts -->
   <div class="profile_posts flex flex-col flex-grow h-screen md:w-[600px]">
     <div class="flex flex-col" *ngFor="let p of posts_">
-      <div class="feed-container p-5 mt-5 rounded-t-2xl shadow-sm">
+      <div class="feed-container p-5 mt-5 rounded-t-2xl shadow-xl">
         <div class="flex items-center space-x-2">
           <img
             class="rounded-full"
@@ -81,10 +81,7 @@
         <p *ngIf="p.desc != undefined" class="pt-4">{{ p.desc }}</p>
       </div>
       <!-- if post has image -->
-      <div
-        *ngIf="p?.userId == uid_ && p.image != ''"
-        class="contents h-56 md:h-96 bg-white"
-      >
+      <div *ngIf="p.image != ''" class="contents h-56 md:h-96 bg-white">
         <img
           class="object-cover"
           src="http://localhost:9000/api/posts/get/image?filename={{ p.image }}"
@@ -93,7 +90,6 @@
       </div>
       <!-- footer of post -->
       <div
-        *ngIf="p?.userId == uid_"
         class="flex justify-between items-center rounded-b-2xl bg-gray-800 shadow-md text-gray-400 border-t"
       >
         <div

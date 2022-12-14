@@ -4,14 +4,6 @@ import { Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import Swal from 'sweetalert2';
 
-interface SignUp {
-  fname: string;
-  lname: string;
-  email: string;
-  password: string;
-  cpassword: string;
-}
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',

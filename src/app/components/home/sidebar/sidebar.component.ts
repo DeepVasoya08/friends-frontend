@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit {
     const channel_user = this.pusher.subscribe('users');
     channel_user.bind('user', () => {
       this.getFriendsList();
-      this.userService.updateUser(this.id_);
+      this.userService.updateUser();
     });
   }
 

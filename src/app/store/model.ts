@@ -14,8 +14,7 @@ export interface UserInterface {
   createdAt: string;
   coverPicId: string;
   email: string;
-  friends: [];
-  isAdmin: boolean;
+  friends: Array<string>;
   profilePic: string;
   profilePicId: string;
   updatedAt: string;

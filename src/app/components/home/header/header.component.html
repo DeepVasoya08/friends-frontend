@@ -22,18 +22,20 @@
         <input
           [(ngModel)]="textSearch"
           (keyup)="onChange($event)"
-          class="ml-2 bg-inherit text-slate-200 items-center outline-none flex-shrink rounded"
+          class="ml-2 bg-inherit text-slate-200 items-center outline-none outline-gray-600 focus:outline-purple-600 flex-shrink rounded"
           type="text"
           placeholder="search friends"
         />
         <div
           *ngIf="textSearch != ''"
-          class="flex flex-col items-start overflow-y-auto z-50 h-20"
+          class="flex flex-col items-start overflow-y-auto z-50 h-20 m-1"
         >
           <a
             *ngFor="let r of res"
             class="flex items-center cursor-pointer m-[2px]"
-            routerLink="/visit/{{ r._id }}"
+            routerLink="{{
+              r._id != uid ? '/visit/' + r._id : '/profile/' + uid
+            }}"
           >
             <img
               class="rounded h-10 w-10"

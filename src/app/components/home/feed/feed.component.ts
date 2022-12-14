@@ -16,7 +16,7 @@ import { CommentsComponent } from './comments/comments.component';
 })
 export class FeedComponent {
   posts_: any = [];
-  user_: Observable<UserInterface>;
+  user_: Observable<any>;
   uid_: any = '';
   filename: string = '';
   message = '';
@@ -33,7 +33,7 @@ export class FeedComponent {
       cluster: 'ap2',
     });
     const channel = this.pusher.subscribe('posts');
-    channel.bind('post', () => this.postService.getAllPosts);
+    channel.bind('post', () => this.postService.getAllPosts());
     this.user_ = this.store.pipe(select(userSelector));
     this.user_.subscribe({
       next: (data) => (this.uid_ = data._id),

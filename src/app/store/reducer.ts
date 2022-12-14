@@ -1,15 +1,33 @@
 import { createReducer, on } from '@ngrx/store';
-import { StoreModel } from './model';
+import { StoreModel, UserInterface } from './model';
 import * as AllActions from './actions';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 const getCookie = localStorage.getItem('auth');
+const helper = new JwtHelperService();
+const data =
+  getCookie !== null ? helper.decodeToken(JSON.parse(getCookie)) : '';
+
+const initialData = {
+  _id: '',
+  fname: '',
+  lname: '',
+  coverPic: '',
+  createdAt: '',
+  coverPicId: '',
+  email: '',
+  friends: [],
+  profilePic: '',
+  profilePicId: '',
+  updatedAt: '',
+};
 
 const initialState: StoreModel = {
-  user: getCookie ? JSON.parse(getCookie) : '',
   post: [],
   story: [],
   isLoading: false,
   isLoggedIn: getCookie ? true : false,
+  user: initialData,
 };
 
 export const Reducer = createReducer(

@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import Swal from 'sweetalert2';
-
-interface LoginForm {
-  email: string;
-  password: string;
-}
 
 @Component({
   selector: 'app-login',
@@ -14,27 +9,40 @@ interface LoginForm {
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  formint: LoginForm = {
-    email: '',
-    password: '',
-  };
+  formGroup!: FormGroup;
 
-  constructor(private auth: AuthServiceService) {}
+  constructor(private auth: AuthServiceService) {
+    const checkToken = localStorage.getItem('auth');
+    if (checkToken != null) {
+      console.log('caled');
 
-  ngOnInit(): void {}
+      this.auth.reload();
+    }
+  }
 
-  login(form: NgForm): void {
-    this.auth.login(form.value).subscribe({
-      next: (data) => {
-        data.toString();
-        this.auth.saveData(data);
-      },
-      error: (err) => {
-        Swal.fire({
-          icon: 'error',
-          text: err.error.message,
-        });
-      },
+  ngOnInit(): void {
+    this.formGroup = new FormGroup({
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required]),
     });
+  }
+
+  login(): void {
+    if (this.formGroup.valid) {
+      this.auth.login(this.formGroup.value).subscribe({
+        next: (data) => {
+          const token = data.headers.get('token');
+          this.auth.saveData(data.body, token);
+        },
+        error: (err) => {
+          console.log(err);
+
+          Swal.fire({
+            icon: 'error',
+            text: err.error,
+          });
+        },
+      });
+    }
   }
 }

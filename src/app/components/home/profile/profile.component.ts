@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
     });
     const channel_user = this.pusher.subscribe('users');
     const channel_posts = this.pusher.subscribe('posts');
-    channel_user.bind('user', () => this.userService.updateUser(this.uid_));
+    channel_user.bind('user', () => this.userService.updateUser());
     channel_posts.bind('post', () => this.getPosts());
   }
 

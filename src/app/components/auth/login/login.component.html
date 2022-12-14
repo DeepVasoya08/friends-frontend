@@ -7,29 +7,26 @@
         >
           <form
             #form="ngForm"
-            (ngSubmit)="login(form)"
+            [formGroup]="formGroup"
+            (ngSubmit)="login()"
             class="flex flex-col gap-2"
           >
             <input
               autofocus
               type="email"
-              name="email"
-              [(ngModel)]="formint.email"
+              formControlName="email"
               placeholder="Email"
-              required
             />
             <input
               type="password"
-              name="password"
-              [(ngModel)]="formint.password"
+              formControlName="password"
               placeholder="Password"
-              required
             />
             <button
               style="padding: 15px; color: white; font-size: 18px"
               type="submit"
               class="bg-blue-600 outline-none border-none rounded-lg mb-5 cursor-pointer"
-              [disabled]="!formint.email || !formint.password"
+              [disabled]="!formGroup.valid"
             >
               Login
             </button>
