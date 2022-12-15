@@ -13,9 +13,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private auth: AuthServiceService) {
     const checkToken = localStorage.getItem('auth');
-    if (checkToken != null) {
-      console.log('caled');
-
+    if (checkToken != null || checkToken != undefined) {
       this.auth.reload();
     }
   }
@@ -35,11 +33,9 @@ export class LoginComponent implements OnInit {
           this.auth.saveData(data.body, token);
         },
         error: (err) => {
-          console.log(err);
-
           Swal.fire({
             icon: 'error',
-            text: err.error,
+            text: err.error.message,
           });
         },
       });

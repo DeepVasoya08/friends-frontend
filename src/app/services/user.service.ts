@@ -5,6 +5,7 @@ import { user } from '../store/actions';
 import { State } from '../store/state';
 import Swal from 'sweetalert2';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { AuthServiceService } from './auth-service.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,11 @@ export class UserService {
   allUsersList = new BehaviorSubject<any>([]);
   req_queue = new BehaviorSubject<any>('');
 
-  constructor(private http: HttpClient, private store: Store<State>) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store<State>,
+    private authService: AuthServiceService
+  ) {}
 
   url: string = 'http://localhost:9000/api/user';
   authUrl: string = 'http://localhost:9000/api/auth';
@@ -120,27 +125,47 @@ export class UserService {
   }
 
   deleteUser(id: string) {
-    localStorage.removeItem('auth');
+    const token = JSON.parse(this.authService.token_);
+    const headers = new HttpHeaders().set('authorization', `Bearer ${token}`);
     this.http
-      .delete(`${this.url}/delete/user/${id}`, { body: { id: id } })
-      .subscribe();
-    window.location.reload();
+      .delete(`${this.url}/delete/user/${id}`, {
+        body: { id: id },
+        headers: headers,
+      })
+      .subscribe({
+        next: (data) => {
+          localStorage.removeItem('auth');
+          window.location.reload();
+        },
+        error: (err) =>
+          Swal.fire({
+            icon: 'error',
+            text: err.error.message,
+          }),
+      });
   }
 
   updateUser() {
-    const token = localStorage.getItem('auth');
-    const headers = new HttpHeaders();
-    headers.append('authorization', `Bearer ${token}`);
-    this.http.post(`${this.authUrl}/reload`, { headers: headers }).subscribe({
-      next: (data) => {
-        this.store.dispatch(user({ u: data }));
-      },
-      error: (err) =>
-        Swal.fire({
-          icon: 'error',
-          text: err.message,
-        }),
-    });
+    const token: any = localStorage.getItem('auth');
+    const headers = new HttpHeaders().set(
+      'authorization',
+      `Bearer ${JSON.parse(token)}`
+    );
+    this.http
+      .post(`${this.authUrl}/reload`, '', {
+        headers: headers,
+        observe: 'response',
+      })
+      .subscribe({
+        next: (data) => {
+          this.authService.saveData(data.body, data.headers.get('token'));
+        },
+        error: (err) =>
+          Swal.fire({
+            icon: 'error',
+            text: err.message,
+          }),
+      });
   }
 
   updateProfilePic(uid: string, file: FormData) {

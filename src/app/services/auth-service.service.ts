@@ -65,10 +65,20 @@ export class AuthServiceService {
           this.saveData(data.body, JSON.parse(this.token_));
         },
         error: (err) => {
-          Swal.fire({
-            icon: 'error',
-            text: err.error.message,
-          });
+          if (err.error.message == 'reload') {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Auth token expired!',
+              text: 'Login again to get new token',
+            }).then(() => {
+              this.router.navigate(['/login']);
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              text: err.error.message,
+            });
+          }
         },
       });
   }

@@ -6,6 +6,7 @@ import { UserInterface } from 'src/app/store/model';
 import { storySelector, userSelector } from 'src/app/store/selector';
 import { State } from 'src/app/store/state';
 import Pusher from 'pusher-js';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-story',
@@ -18,7 +19,7 @@ export class StoryComponent implements OnDestroy {
 
   constructor(private storyService: StoryService, private store: Store<State>) {
     this.stories_ = this.store.pipe(select(storySelector));
-    this.pusher = new Pusher('657da354cfe34ab989da', {
+    this.pusher = new Pusher(environment.PUSHER_KEY, {
       cluster: 'ap2',
     });
     const channel = this.pusher.subscribe('stories');

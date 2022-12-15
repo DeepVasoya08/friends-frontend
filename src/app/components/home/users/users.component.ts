@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { userSelector } from 'src/app/store/selector';
 import { State } from 'src/app/store/state';
 import Pusher from 'pusher-js';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-users',
@@ -25,7 +26,7 @@ export class UsersComponent implements OnInit {
   pusher: Pusher;
 
   constructor(private userService: UserService, private store: Store<State>) {
-    this.pusher = new Pusher('657da354cfe34ab989da', {
+    this.pusher = new Pusher(environment.PUSHER_KEY, {
       cluster: 'ap2',
     });
     this.extractData();

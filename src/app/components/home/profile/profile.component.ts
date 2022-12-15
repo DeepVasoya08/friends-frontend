@@ -11,6 +11,7 @@ import { State } from 'src/app/store/state';
 import { PostServiceService } from 'src/app/services/post-service.service';
 import { CommentsComponent } from '../feed/comments/comments.component';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -33,7 +34,7 @@ export class ProfileComponent implements OnInit {
     this.store
       .pipe(select(userSelector))
       .subscribe({ next: (data) => (this.uid_ = data._id) });
-    this.pusher = new Pusher('657da354cfe34ab989da', {
+    this.pusher = new Pusher(environment.PUSHER_KEY, {
       cluster: 'ap2',
     });
     const channel_user = this.pusher.subscribe('users');

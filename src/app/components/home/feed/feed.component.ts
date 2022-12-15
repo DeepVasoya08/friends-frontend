@@ -9,6 +9,7 @@ import { State } from 'src/app/store/state';
 import Pusher from 'pusher-js';
 import { MatDialog } from '@angular/material/dialog';
 import { CommentsComponent } from './comments/comments.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-feed',
@@ -29,7 +30,7 @@ export class FeedComponent {
     public http: HttpClient,
     public dialog: MatDialog
   ) {
-    this.pusher = new Pusher('657da354cfe34ab989da', {
+    this.pusher = new Pusher(environment.PUSHER_KEY, {
       cluster: 'ap2',
     });
     const channel = this.pusher.subscribe('posts');

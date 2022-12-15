@@ -7,6 +7,7 @@ import { userSelector } from 'src/app/store/selector';
 import { State } from 'src/app/store/state';
 import Pusher from 'pusher-js';
 import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sidebar',
@@ -25,7 +26,7 @@ export class SidebarComponent implements OnInit {
         this.id_ = data._id;
       },
     });
-    this.pusher = new Pusher('657da354cfe34ab989da', {
+    this.pusher = new Pusher(environment.PUSHER_KEY, {
       cluster: 'ap2',
     });
     const channel_user = this.pusher.subscribe('users');

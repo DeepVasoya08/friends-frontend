@@ -7,6 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { loadingSelector, userSelector } from 'src/app/store/selector';
 import { State } from 'src/app/store/state';
 import Pusher from 'pusher-js';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,7 @@ export class HomeComponent implements OnInit {
     private store: Store<State>,
     private storyService: StoryService
   ) {
-    this.pusher = new Pusher('657da354cfe34ab989da', {
+    this.pusher = new Pusher(environment.PUSHER_KEY, {
       cluster: 'ap2',
     });
     const channel_requests = this.pusher.subscribe('requests');

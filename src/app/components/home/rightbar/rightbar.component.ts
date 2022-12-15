@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services/user.service';
 import { userSelector } from 'src/app/store/selector';
 import { State } from 'src/app/store/state';
 import Pusher from 'pusher-js';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-rightbar',
@@ -18,7 +19,7 @@ export class RightbarComponent implements OnInit {
     this.store.pipe(select(userSelector)).subscribe({
       next: (data) => (this.uid = data._id),
     });
-    this.pusher = new Pusher('657da354cfe34ab989da', {
+    this.pusher = new Pusher(environment.PUSHER_KEY, {
       cluster: 'ap2',
     });
     const channel_users = this.pusher.subscribe('users');

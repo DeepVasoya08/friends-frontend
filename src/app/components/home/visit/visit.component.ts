@@ -11,6 +11,7 @@ import { State } from 'src/app/store/state';
 import { CommentsComponent } from '../feed/comments/comments.component';
 import Swal from 'sweetalert2';
 import Pusher from 'pusher-js';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-visit',
@@ -34,7 +35,7 @@ export class VisitComponent implements OnInit {
     private dialog: MatDialog,
     private store: Store<State>
   ) {
-    this.pusher = new Pusher('657da354cfe34ab989da', {
+    this.pusher = new Pusher(environment.PUSHER_KEY, {
       cluster: 'ap2',
     });
     const channel_user = this.pusher.subscribe('users');
