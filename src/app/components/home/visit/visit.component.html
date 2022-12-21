@@ -5,7 +5,7 @@
       class="z-0 object-fill min-w-[100vw] outline-1 outline-gray-400 outline"
       [src]="
         user_?.coverPic
-          ? 'http://localhost:9000/api/user/get/cover?filename=' +
+          ? 'https://friends-backend.onrender.com/api/user/get/cover?filename=' +
             user_?.coverPic
           : 'assets/background.jfif'
       "
@@ -17,7 +17,7 @@
       class="w-[150px] h-[150px] rounded-full object-cover border-white border-solid border-[3px]"
       [src]="
         user_?.profilePic
-          ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+          ? 'https://friends-backend.onrender.com/api/user/get/profilePic?filename=' +
             user_?.profilePic
           : 'assets/user.png'
       "
@@ -63,7 +63,7 @@
             class="rounded-full"
             [src]="
               p?.profilePic
-                ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+                ? 'https://friends-backend.onrender.com/api/user/get/profilePic?filename=' +
                   p?.profilePic
                 : 'assets/user.png'
             "
@@ -85,7 +85,7 @@
       <div *ngIf="p.image != ''" class="contents h-56 md:h-96 bg-white">
         <img
           class="object-cover"
-          src="http://localhost:9000/api/posts/get/image?filename={{ p.image }}"
+          src="https://friends-backend.onrender.com/api/posts/get/image?filename={{ p.image }}"
           alt="post"
         />
       </div>

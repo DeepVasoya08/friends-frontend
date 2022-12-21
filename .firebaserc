@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "friends-frontend": {
+      "hosting": {
+        "app": [
+          "friends-frontend"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "friends-frontend"
+  }
+}

@@ -20,9 +20,9 @@ export class UserService {
     private authService: AuthServiceService
   ) {}
 
-  url: string = 'http://localhost:9000/api/user';
-  authUrl: string = 'http://localhost:9000/api/auth';
-  // url: string = 'https://friends-backend.onrender.com/api/user';
+  // url: string = 'http://localhost:9000/api/user';
+  url: string = 'https://friends-backend.onrender.com/api/user';
+  authUrl: string = 'https://friends-backend.onrender.com/api/auth';
 
   getFriendsList(uid: string) {
     return this.http.get(`${this.url}/friends/${uid}`);

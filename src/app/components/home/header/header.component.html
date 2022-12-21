@@ -41,7 +41,7 @@
               class="rounded h-10 w-10"
               [src]="
                 r.profilePic
-                  ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+                  ? 'https://friends-backend.onrender.com/api/user/get/profilePic?filename=' +
                     (user | async)?.profilePic
                   : 'assets/fb.png'
               "
@@ -127,7 +127,7 @@
           class="rounded-full h-10 w-10 object-cover"
           [src]="
             (user | async)?.profilePic
-              ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+              ? 'https://friends-backend.onrender.com/api/user/get/profilePic?filename=' +
                 (user | async)?.profilePic
               : 'assets/user.png'
           "

@@ -9,8 +9,8 @@ import { State } from '../store/state';
   providedIn: 'root',
 })
 export class StoryService {
-  // url: string = 'https://friends-backend.onrender.com/api/story';
-  url: string = 'http://localhost:9000/api/story';
+  url: string = 'https://friends-backend.onrender.com/api/story';
+  // url: string = 'http://localhost:9000/api/story';
   allStories: any;
 
   constructor(private http: HttpClient, private store: Store<State>) {}

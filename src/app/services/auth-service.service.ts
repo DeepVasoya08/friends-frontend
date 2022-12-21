@@ -11,8 +11,7 @@ import Swal from 'sweetalert2';
   providedIn: 'root',
 })
 export class AuthServiceService {
-  // url: string = 'https://friends-backend.onrender.com/api/auth';
-  url: string = 'http://localhost:9000/api/auth';
+  url: string = 'https://friends-backend.onrender.com/api/auth';
   token_!: any;
 
   constructor(

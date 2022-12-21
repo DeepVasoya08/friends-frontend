@@ -15,7 +15,7 @@
           class="rounded-full h-10 w-10"
           [src]="
             (user_ | async)?.profilePic
-              ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+              ? 'https://friends-backend.onrender.com/api/user/get/profilePic?filename=' +
                 (user_ | async)?.profilePic
               : 'assets/user.png'
           "
@@ -94,7 +94,7 @@
               class="rounded-full h-10 w-10"
               [src]="
                 p?.profilePic
-                  ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+                  ? 'https://friends-backend.onrender.com/api/user/get/profilePic?filename=' +
                     p?.profilePic
                   : 'assets/user.png'
               "
@@ -114,7 +114,7 @@
         <div *ngIf="p.image" class="contents h-56 md:h-96 bg-white">
           <img
             class="object-cover"
-            src="http://localhost:9000/api/posts/get/image?filename={{
+            src="https://friends-backend.onrender.com/api/posts/get/image?filename={{
               p.image
             }}"
             alt="post"

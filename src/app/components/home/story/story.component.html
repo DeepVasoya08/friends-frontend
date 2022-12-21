@@ -35,7 +35,7 @@
           class="absolute h-10 w-10 rounded-full z-50 top-10 object-cover"
           [src]="
             s?.profilePic
-              ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+              ? 'https://friends-backend.onrender.com/api/user/get/profilePic?filename=' +
                 s?.profilePic
               : 'assets/user.png'
           "
@@ -45,7 +45,7 @@
           class="w-full h-full object-cover transform-gpu brightness-75 rounded-3xl"
           [src]="
             s?.image
-              ? 'http://localhost:9000/api/story/get/image?filename=' + s?.image
+              ? 'https://friends-backend.onrender.com/api/story/get/image?filename=' + s?.image
               : 'assets/background.jfif'
           "
           alt="story"

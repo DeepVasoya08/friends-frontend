@@ -10,8 +10,8 @@ import { State } from '../store/state';
   providedIn: 'root',
 })
 export class PostServiceService implements OnInit {
-  // url: string = 'https://friends-backend.onrender.com/api/posts';
-  url: string = 'http://localhost:9000/api/posts';
+  url: string = 'https://friends-backend.onrender.com/api/posts';
+  // url: string = 'http://localhost:9000/api/posts';
   allPostResonse: any;
 
   constructor(private http: HttpClient, private store: Store<State>) {}

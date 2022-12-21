@@ -63,7 +63,7 @@
         class="rounded-full h-12 w-12 object-cover mr-2"
         [src]="
           friend?.profilePic
-            ? 'http://localhost:9000/api/user/get/profilePic?filename=' +
+            ? 'https://friends-backend.onrender.com/api/user/get/profilePic?filename=' +
               friend?.profilePic
             : 'assets/user.png'
         "
