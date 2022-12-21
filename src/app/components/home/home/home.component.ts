@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { PostServiceService } from 'src/app/services/post-service.service';
 import { StoryService } from 'src/app/services/story.service';
 import { UserService } from 'src/app/services/user.service';
-import { loadingSelector, userSelector } from 'src/app/store/selector';
+import { userSelector } from 'src/app/store/selector';
 import { State } from 'src/app/store/state';
 import Pusher from 'pusher-js';
 import { environment } from 'src/environments/environment';
@@ -14,7 +14,6 @@ import { environment } from 'src/environments/environment';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  loading: Observable<boolean>;
   uid!: string;
   pusher: Pusher;
 
@@ -28,7 +27,6 @@ export class HomeComponent implements OnInit {
       cluster: 'ap2',
     });
     const channel_requests = this.pusher.subscribe('requests');
-    this.loading = this.store.pipe(select(loadingSelector));
     this.store.pipe(select(userSelector)).subscribe({
       next: (data) => (this.uid = data._id),
     });
