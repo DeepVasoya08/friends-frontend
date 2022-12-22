@@ -42,7 +42,7 @@ export class SidebarComponent implements OnInit {
 
   getFriendsList() {
     this.userService.getFriendsList(this.id_).subscribe({
-      next: (data) => (this.friends = data),
+      next: (data: any) => (this.friends = data),
     });
   }
 
